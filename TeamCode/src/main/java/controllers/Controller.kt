@@ -1,4 +1,4 @@
-package Controllers
+package controllers
 
 abstract class Controller {
     var goal: Double = 0.0
