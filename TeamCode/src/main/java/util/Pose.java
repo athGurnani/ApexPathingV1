@@ -19,12 +19,23 @@ public class Pose {
      * @param heading the heading of the pose as an angle value in the specified unit
      * @param posUnit the {@link Distance.Units} of the x and y components of the position
      * @param angleUnit the {@link Angle.Units} of the heading angle
+     * @param mirror whether the pose should be mirrored across the y axis or not
      */
     public Pose(double x, double y, double heading, Distance.Units posUnit, Angle.Units angleUnit, boolean mirror) {
         this.position = new Vector(x, y, posUnit);
         this.heading = Angle.from(angleUnit, heading);
         this.angleUnit = angleUnit;
         if (mirror) { this.mirror(); }
+    }
+
+    /**
+     * Constructor for {@link Pose} class with manual x, y, and heading values in default units
+     * @param x the x component of the position in inches
+     * @param y the y component of the position in inches
+     * @param heading the heading of the pose as an angle value in radians
+     */
+    public Pose(double x, double y, double heading) {
+        return new Pose(x, y, heading, Distance.Units.INCHES, Angle.Units.RADIANS, false);
     }
 
     /** Factory method to create a {@link Pose} from an FTC SDK {@link Pose2D} object with specified units and mirroring */
