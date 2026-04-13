@@ -18,7 +18,6 @@ public class PIDFController extends Controller {
    private double lastError = 0.0;
 
    private ElapsedTime timer;
-   private double lastRecordedTime = 0.0;
 
     public PIDFController(double kP, double kI, double kD, double kF) {
         this.kP = kP;
@@ -26,7 +25,6 @@ public class PIDFController extends Controller {
         this.kD = kD;
         this.kF = kF;
 
-        timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     }
 
     public PIDFController(PIDFCoefficients coefficients) {
@@ -56,10 +54,9 @@ public class PIDFController extends Controller {
 
 
     @Override
-    protected double computeOutput(double error) {
+    protected double computeOutput(double error, double lastError, double deltaTime) {
         // P term (Square Root)
         double proportional = kP * error;
-        double deltaTime = timer.time() - lastRecordedTime;
 
         if (!timeAnomalyDetected) {
             // I term
@@ -75,15 +72,6 @@ public class PIDFController extends Controller {
         } else {
             return proportional;
         }
-
-        lastError = error;
-        lastRecordedTime = timer.time();
-    }
-
-    public double computeOutput() {
-        return this.computeOutput(
-                targetPos - currentPos
-        );
     }
 
     public void resetIntegral() {
