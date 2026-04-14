@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import followers.P2PFollower;
 import drivetrains.Mecanum;
@@ -12,7 +12,7 @@ import util.Pose;
 import util.PoseBuilder;
 
 @Autonomous(name = "SimpleTestAuto", group = "tests")
-public class SimpleTestAuto extends LinearOpMode {
+public class SimpleTestAuto extends OpMode {
     private P2PFollower follower;
     private int iterator = 0;
 
@@ -30,34 +30,34 @@ public class SimpleTestAuto extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void init() {
         // !!!! NOTE: Do not directly use the drivetrain or localizer in the opmode, only use the follower !!!!
         Mecanum drivetrain = new Mecanum(hardwareMap, Constants.driveConstants);
         Pinpoint localizer = new Pinpoint(hardwareMap, Constants.localizerConstants, poses[0]);
         follower = new P2PFollower(Constants.followerConstants, drivetrain, localizer);
+    }
 
-        waitForStart();
-        while (opModeIsActive()) {
-            follower.update();
+    @Override
+    public void loop() {
+        follower.update();
 
-            if (!follower.isBusy() && iterator < poses.length - 1) {
-                iterator ++;
-                follower.setTargetPose(poses[iterator]);
-            } else {
-                follower.stop();
-            }
-
-            // Stop
-            if (gamepad1.a) {
-                requestOpModeStop();
-            }
-
-            telemetry.addData("Auto State", iterator);
-            telemetry.addData("Current Pose", follower.getPose().toString());
-            telemetry.addData("Target Pose", follower.getTargetPose().toString());
-            telemetry.addData("Velocity", follower.getVelocity().toString());
-            telemetry.addData("Is Busy", follower.isBusy());
-            telemetry.update();
+        if (!follower.isBusy() && iterator < poses.length - 1) {
+            iterator ++;
+            follower.setTargetPose(poses[iterator]);
+        } else {
+            follower.stop();
         }
+
+        // Stop
+        if (gamepad1.a) {
+            requestOpModeStop();
+        }
+
+        telemetry.addData("Auto State", iterator);
+        telemetry.addData("Current Pose", follower.getPose().toString());
+        telemetry.addData("Target Pose", follower.getTargetPose().toString());
+        telemetry.addData("Velocity", follower.getVelocity().toString());
+        telemetry.addData("Is Busy", follower.isBusy());
+        telemetry.update();
     }
 }
