@@ -1,4 +1,4 @@
-package motors;
+package hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -20,6 +20,7 @@ public class MotorEx {
         setDirection(data.getDirection());
         setBrakeMode(data.getBrakeMode());
     }
+
 
     public void setRunMode(DcMotor.RunMode mode) {
         motor.setMode(mode);

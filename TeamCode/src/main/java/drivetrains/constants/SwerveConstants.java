@@ -1,9 +1,8 @@
 package drivetrains.constants;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import motors.MotorMetaData;
+import hardware.MotorMetaData;
 
 /**
  * Swerve drivetrain constants class
@@ -34,6 +33,11 @@ public class SwerveConstants {
     public double MaxSpeed = 60; // Inches per second
     public double MotorCurrentLimit = 1000; //milliamps, per motor
     public double ServoCurrentLimit = 1000; //milliamps per servo
+
+    //drivetrain constants
+    public double trackwidth = 12; //inches
+    public double wheelbase = 12; //inches
+    public double diagonalDistance = Math.sqrt(Math.pow(trackwidth,2) + Math.pow(wheelbase,2));
 
     /**
      * default constructor
