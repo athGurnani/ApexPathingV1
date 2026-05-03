@@ -6,6 +6,7 @@ import util.Angle;
 import util.Distance;
 
 public abstract class Controller {
+    protected double goal = 0.0;
     protected double lastError = 0.0;
     protected double motorDeadzone = 0.05;
     protected boolean timeAnomalyDetected = false;
@@ -18,6 +19,10 @@ public abstract class Controller {
 
     public Controller() {
         this.lastTimestamp = System.nanoTime();
+    }
+
+    public void setGoal(double newGoal) {
+        this.goal = newGoal;
     }
 
     public void setDeadzone(double deadzone) {
