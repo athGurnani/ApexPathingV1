@@ -6,6 +6,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
+import java.util.Locale;
+
+/**
+ * Class representing a 2D pose with vector (x, y) and heading component. Provides methods for pose
+ * arithmetic, comparison, and utility functions such as mirroring and conversion to FTC SDK Pose2D.
+ *
+ * @author Dylan B. - 18597 RoboClovers - Delta
+ */
 public class Pose {
     private final Vector position;
     private Angle heading;
@@ -29,6 +37,18 @@ public class Pose {
     }
 
     /**
+     * Constructor for {@link Pose} class with manual x, y, and heading values in specified units without mirroring
+     * @param x the x component of the position in the specified unit
+     * @param y the y component of the position in the specified unit
+     * @param heading the heading of the pose as an angle value in the specified unit
+     * @param posUnit the {@link Distance.Units} of the x and y components of the position
+     * @param angleUnit the {@link Angle.Units} of the heading angle
+     */
+    public Pose(double x, double y, double heading, Distance.Units posUnit, Angle.Units angleUnit) {
+        this(x, y, heading, posUnit, angleUnit, false);
+    }
+
+    /**
      * Constructor for {@link Pose} class with manual x, y, and heading values in default units
      * @param x the x component of the position in inches
      * @param y the y component of the position in inches
@@ -47,12 +67,23 @@ public class Pose {
                 Distance.Units.INCHES, Angle.Units.RADIANS, mirror
         );
     }
+
+    /**
+     * Factory method to create a {@link Pose} at (0, 0, 0) in default units
+     * (inches and radians) with no mirroring
+     * @return a new {@link Pose} object representing the origin pose with 0 heading
+     */
+    public static Pose zero() {
+        return new Pose(0, 0, 0);
+    }
     // endregion
 
     // TODO: Javadocs
     // region Getters
     public double getX() { return this.position.getX(); }
     public double getY() { return this.position.getY(); }
+
+    public Vector toVec() { return this.position; }
     public double getHeading() { return this.heading.get(this.angleUnit); }
 
     public Vector getPositionComponent() { return this.position; }
@@ -226,9 +257,9 @@ public class Pose {
     @Override
     @NonNull
     public String toString() {
-        return String.format(
-                "Pose(x=%s %s, y=%s %s, heading=%s %s)",
-                getX(), position.getUnit(), getY(), position.getUnit(), getHeading(), angleUnit
+        return String.format(Locale.ENGLISH,
+                "X=%.1f, Y=%.1f %s, Heading=%.1f %s",
+                getX(), getY(), position.getUnit(), getHeading(), angleUnit
         );
     }
     // endregion

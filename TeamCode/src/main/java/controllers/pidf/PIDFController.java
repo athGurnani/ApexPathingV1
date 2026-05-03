@@ -14,8 +14,13 @@ public class PIDFController extends Controller {
    private double integralSum = 0.0;
    private final double iLimit = 1.0;
 
-   private ElapsedTime timer;
-
+    /**
+     * default constructor
+     * @param kP is the Proportional term
+     * @param kI is the Integral term
+     * @param kD is the Derivative term
+     * @param kF is the Feedforward term
+     */
     public PIDFController(double kP, double kI, double kD, double kF) {
         this.kP = kP;
         this.kI = kI;
@@ -24,6 +29,10 @@ public class PIDFController extends Controller {
 
     }
 
+    /**
+     * default constructor
+     * @param coefficients are the coefficients for the pidf
+     */
     public PIDFController(PIDFCoefficients coefficients) {
         this(coefficients.getP(),
                 coefficients.getI(),
@@ -31,6 +40,13 @@ public class PIDFController extends Controller {
                 coefficients.getF());
     }
 
+    /**
+     * sets the pidf coefficients for the controller
+     * @param kP is the Proportional Term
+     * @param kI is the Integral Term
+     * @param kD is the Derivative Term
+     * @param kF is the Feedforward Term
+     */
     public void setPIDFCoefficients(double kP, double kI, double kD, double kF) {
         this.kP = kP;
         this.kI = kI;
@@ -38,11 +54,21 @@ public class PIDFController extends Controller {
         this.kF = kF;
     }
 
+    /**
+     * returns the current PIDF coefficients, p, i, d, and f
+     * @return type PIDFCoefficients
+     */
     public PIDFCoefficients getCoefficients() {
         return new PIDFCoefficients(kP, kI, kD, kF);
     }
 
-
+    /**
+     *
+     * @param error Difference between goal and current position.
+     * @param lastError Error from the previous loop.
+     * @param deltaTime Time elapsed since last loop in seconds.
+     * @return the power to set your motor to
+     */
     @Override
     protected double computeOutput(double error, double lastError, double deltaTime) {
         // P term (Square Root)
@@ -63,6 +89,9 @@ public class PIDFController extends Controller {
         }
     }
 
+    /**
+     * resets the integral term
+     */
     public void resetIntegral() {
         this.integralSum = 0;
     }
